@@ -79,6 +79,18 @@ suite("Connect API", function() {
     connect(u, {}, kCallback(fail(done), succeed(done)));
   });
 
+  test("serverProperties", function(done) {
+    var url = require('url');
+    var parts = url.parse(URL, true);
+    var config = parts.query || {};
+    connect(config, {}, (err, connection) => {
+      if (err) { return done(err); }
+      console.dir(connection);
+      assert.equal(connection.serverProperties.product, 'RabbitMQ');
+      done();
+    });
+  });
+
   test("using custom heartbeat option", function(done) {
     var url = require('url');
     var parts = url.parse(URL, true);
